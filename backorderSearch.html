@@ -1,0 +1,18 @@
+<html>
+<header>
+    <title>Faster Backorder Search</title>
+    <script src="adoptSearch.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <h1>Faster Backorder Search</h1>
+</header>
+<body>
+        <h4>Select the Netsuite File</h4><br>
+        <input type="file" id="csvFileInput" onchange="handleFiles(this.files, false)" accept=".csv" required>
+        <input type="text" id="ISBNsearch" placeholder = "scan/paste ISBN here"></input>
+        <button type="button" class="btn btn-primary" id="submitButton" onclick="searchISBN()">Submit</button>
+    <div style="background-color:#DCDCDC">
+        <p id="results">Results Appear Here</p>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,82 @@
+<html>
+<header>
+    <title>Adoption Search</title>
+    <script src="adoptSearch.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/775768a85b.js"></script>
+</header>
+<body>
+    <h1>Adoption Search</h1>
+    <div class="submitFiles">
+    <form>
+        <h4>Select the Netsuite File</h4><br>
+        <input type="file" id="csvFileInput" onchange="handleFiles(this.files, 0)" accept=".csv" required>
+        
+        <h4>Select the Cagelist File</h4><br>
+        <input type="file" id="cageListInput" onchange="handleFiles(this.files, 1)" accept=".csv" required>
+
+        <button type="button" class="btn btn-primary" id="submitButton" onclick="compareLists()">Submit</button>
+    </form>
+    </div>
+    <div class="border">
+        <p id="results">Results Appear Here</p>
+    </div>
+
+    <div class="howTo">
+    <h5>how to do this thing</h5>
+    <button id="showMe" class="btn btn-info" onclick="showStuff()">show me</button>
+    <div id="instructions" style="display:none">
+        <ol>
+            <h4>
+                <li>Download the CSV file from Netsuite</li>
+            </h4>
+            <img src="step1.jpg">
+            <h5>make sure you select the right semester</h5>
+            <img src="step2.jpg">
+            <h5>click there to download</h5>
+            <img src="step3.jpg">
+            <h4>
+                <li>Download the CSV file from Google Sheets</li>
+            </h4>
+            <img src="step4.jpg">
+            <img src="step5.jpg">
+            <h4>
+                <li>Upload 'em Here</li>
+            </h4>
+            <p>don't upload the netsuite file on the cage list upload section or it wont work</p>
+        </ol>
+    </div>
+    </div>
+    <!-- COMPONENT START 
+    <h3>Potential File Select STyle</h3>
+    <form method="POST" action="#" enctype="multipart/form-data">
+        <div class="form-group">
+            <div class="input-group input-file" name="Fichier1">
+                <input type="text" class="form-control" placeholder='Choose a file...' />
+                <span class="input-group-btn">
+        		<button class="btn btn-default btn-choose" type="button">Choose</button>
+    		</span>
+
+
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary pull-right" disabled>Submit</button>
+            <button type="reset" class="btn btn-danger">Reset</button>
+        </div>
+    </form>
+    <!-- COMPONENT END -->
+</body>
+<style>
+@media print {
+    .submitFiles {display:none;}    
+    .howTo {display:none;}
+    .printIcon {display:none;}
+}
+.printIcon:hover {
+    opacity:.75;
+}
+</style>
+
+</html>
