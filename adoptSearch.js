@@ -82,9 +82,10 @@ function processData(csv) {
     listOfIsbn.push(tempArray[whereTheIsbnIs]);
     if (fileType === 1)
       {
-        cageListAuthors.push(tempArray[0] + "," + tempArray[1]);
+        let str = tempArray[0] + "," + tempArray[1];
+        cageListAuthors.push(str.slice(1,str.length-1));
         cageListTitles.push(tempArray[whereTheIsbnIs + 1]);
-        console.log ("There are " + tempArray[whereTheIsbnIs + 2] + " copies of " + tempArray[0] + tempArray[1]);
+        //console.log ("There are " + tempArray[whereTheIsbnIs + 2] + " copies of " + tempArray[0] + tempArray[1]);
         cageListQuantities.push(tempArray[whereTheIsbnIs + 2]);
       }
     }
@@ -96,7 +97,7 @@ function processData(csv) {
       {
         cageListAuthors.push(tempArray[0]);
         cageListTitles.push(tempArray[whereTheIsbnIs]);
-        console.log ("There are " + tempArray[whereTheIsbnIs + 1] + " copies of " + tempArray[0]);
+        //console.log ("There are " + tempArray[whereTheIsbnIs + 1] + " copies of " + tempArray[0]);
         cageListQuantities.push(tempArray[whereTheIsbnIs + 1]);
       }
     }
@@ -132,7 +133,7 @@ function compareLists()
     }
   }
   results += "</table><br><i style='color:red'>remember to remove these books from the cage list!<i>";
-  if (!somethingFound) {results = "No results found.";}
+  if (!somethingFound) {results = "<h3>No results found.</h3>";}
   document.getElementById("results").innerHTML = results;
 }
 
