@@ -1,0 +1,32 @@
+<html>
+<header>
+    <title>ISBN Converter</title>
+    <script src="adoptSearch.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</header>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Home</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Adoption Search</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="backorderSearch.html">Backorder Search</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="ISBNConverter.html">ISBN Converter<span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <h1>ISBN Converter</h1>
+    <input class="form-control form-control-lg" type="text" id="ISBNsearch" placeholder="scan/paste ISBN here" onClick="this.setSelectionRange(0, this.value.length)"></input>
+    <button type="button" class="btn btn-primary" id="submitButton" onclick="updateISBN()" hidden>Submit</button>
+    <br>
+    <input class="form-control form-control-lg" type="text" id="ISBNResults" placeholder="Alternate ISBN" onClick="this.setSelectionRange(0, this.value.length)" readonly></input>
+</body>
+
+</html>
