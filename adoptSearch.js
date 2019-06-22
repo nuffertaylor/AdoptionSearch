@@ -140,7 +140,7 @@ function compareLists()
 }
 
 window.onload=function(){
-//this autoSubmits the isbn on scan
+//this autoSubmits the isbn on scan for backorderSearch.html and ISBNConverter.html
 var isbnTrue = document.getElementById("ISBNsearch");
 if (isbnTrue)
 {
@@ -183,7 +183,8 @@ function searchISBN()
       numFound++;
     }
   }
-  cardResults += '<p class="card-text">There are ' + numFound + ' orders of this book!</p></div></div>'
+  if (numFound > 1) {cardResults += '<p class="card-text">There are ' + numFound + ' orders of this book!</p></div></div>';}
+  else if (numFound == 1) {cardResults += '<p class="card-text">There is ' + numFound + ' order of this book!</p></div></div>';}
   var noResultsResponses = ["No results found", "yup, i've got nothing", "sorry chief, it's coming up empty", "nothing to see here",
     "it has not been backordered", "i promise, there's nothing", "go ahead and put it on the shelf",
     "there are about as many backorders for this book as i have friends, which is to say zero",
@@ -198,6 +199,8 @@ function searchISBN()
   document.getElementById("alternateISBN").innerHTML = "Alternate ISBN: " + altISBN;
   if (somethingFound){document.getElementById("results").innerHTML = cardResults;}
   else {document.getElementById("results").innerHTML = results;}
+  document.getElementById("ISBNsearch").focus();
+  document.getElementById("ISBNsearch").select();
 }
 
 function ISBNConversion(ISBN)
@@ -247,7 +250,6 @@ function ISBNConversion(ISBN)
   {
     altISBN = "Invalid ISBN";
   }
-  console.log(ISBN.length);
   return altISBN;
 }
 
@@ -257,10 +259,14 @@ function updateISBN()
   document.getElementById("ISBNResults").value = altISBN;
   document.getElementById("ISBNResults").focus();
   document.getElementById("ISBNResults").select();
+  if (document.getElementById("autoCopy").checked)
+  {
+    document.execCommand("copy");
+  }
 }
 
 var instructClicked = false;
-
+//makes instructions appear onclick
 function showStuff()
 {
   var myElement = document.getElementById("instructions");
