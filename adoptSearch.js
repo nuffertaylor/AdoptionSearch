@@ -1,10 +1,14 @@
 var fileType;
-var cageListIsbn = [];
-var cageListAuthors = [];
-var cageListTitles = [];
-var cageListQuantities = [];
+var cageList = [];
 var listFull = [];
 var netsuiteList = [];
+var semStickers = [{semester:"181", html:'<span class="fa-stack fa-1x"> <i class="fa fa-circle fa-stack-2x" style="color:#0d009c"></i> <span class="fa fa-stack-1x" style="color:white;"> <span style="font-size:15px; margin-top:-1px; display:block;"> 181 </span> </span> </span>'},
+                      {semester:"183", html:'<span class="fa-stack fa-1x"> <i class="fa fa-circle fa-stack-2x" style="color:#007822"></i> <span class="fa fa-stack-1x" style="color:white;"> <span style="font-size:15px; margin-top:-1px; display:block;"> 183 </span> </span> </span>'},
+                      {semester:"184", html:'<span class="fa-stack fa-1x"> <i class="fa fa-circle fa-stack-2x" style="color:#007822"></i> <span class="fa fa-stack-1x" style="color:white;"> <span style="font-size:15px; margin-top:-1px; display:block;"> 184 </span> </span> </span>'},
+                      {semester:"185", html:'<span class="fa-stack fa-1x"> <i class="fa fa-circle fa-stack-2x" style="color:#f5b922"></i> <span class="fa fa-stack-1x" style="color:white;"> <span style="font-size:15px; margin-top:-1px; display:block;"> 185 </span> </span> </span>'},
+                      {semester:"191", html:'<span class="fa-stack fa-1x"> <i class="fa fa-circle fa-stack-2x" style="color:#6288f0"></i> <span class="fa fa-stack-1x" style="color:white;"> <span style="font-size:15px; margin-top:-1px; display:block;"> 191 </span> </span> </span>'},
+                      {semester:"193", html:'<span class="fa-stack fa-1x"> <i class="fa fa-circle fa-stack-2x" style="color:#66ff00"></i> <span class="fa fa-stack-1x" style="color:white;"> <span style="font-size:15px; margin-top:-1px; display:block;"> 193 </span> </span> </span>'},
+                      {semester:"195", html:'<span class="fa-stack fa-1x"> <i class="fa fa-circle fa-stack-2x" style="color:#d96c1e"></i> <span class="fa fa-stack-1x" style="color:white;"> <span style="font-size:15px; margin-top:-1px; display:block;"> 195 </span> </span> </span>'}];
 
 function handleFiles(files, whichList)
 {
@@ -69,7 +73,7 @@ function processData(csv)
   for (var i = 0; i < lines.length; i++)
   {
     var str = lines[i] + '';
-    var tempArray = str.split(',', 5);
+    var tempArray = str.split(',', 6);
     var tempStr = tempArray[whereTheIsbnIs] + '';
     /*usually the 4th element in the array is the ISBN, as str.split finds 3 commas before the ISBN.
     the thing is, the third comma is within the author's name, ie "Smith, J". (case 1) But some authors aren't saved this way, instead saved like "Hitt + Dyer" (case 2)
@@ -81,60 +85,97 @@ function processData(csv)
     if ('0123456789'.includes(tempStrEnd) && tempStr === "9")
     {
       // Is a number
+      let listObj = {};
+      listObj.isbn = tempArray[whereTheIsbnIs];
       listOfIsbn.push(tempArray[whereTheIsbnIs]);
       if (fileType === 1)
       {
         let str = tempArray[0] + "," + tempArray[1];
-        cageListAuthors.push(str.slice(1, str.length - 1));
-        cageListTitles.push(tempArray[whereTheIsbnIs + 1]);
-        //console.log ("There are " + tempArray[whereTheIsbnIs + 2] + " copies of " + tempArray[0] + tempArray[1]);
-        cageListQuantities.push(tempArray[whereTheIsbnIs + 2]);
+        listObj.author = str.slice(1, str.length - 1);
+        // NOW I need to account for if there are any commas in the title
+        listObj.title = tempArray[whereTheIsbnIs + 1];
+        listObj.quantities = tempArray[whereTheIsbnIs + 2];
+        listObj.semester = tempArray[whereTheIsbnIs + 3];
+        cageList.push(listObj);
       }
     }
     else
     {
       //console.log("line " + i + " doesn't end in a number.")
+      let listObj = {};
+      listObj.isbn = tempArray[whereTheIsbnIs - 1];
       listOfIsbn.push(tempArray[whereTheIsbnIs - 1]);
       if (fileType === 1)
       {
-        cageListAuthors.push(tempArray[0]);
-        cageListTitles.push(tempArray[whereTheIsbnIs]);
-        //console.log ("There are " + tempArray[whereTheIsbnIs + 1] + " copies of " + tempArray[0]);
-        cageListQuantities.push(tempArray[whereTheIsbnIs + 1]);
+        listObj.author = tempArray[0];
+        listObj.title = tempArray[whereTheIsbnIs];
+        listObj.quantities = tempArray[whereTheIsbnIs + 1];
+        listObj.semester = tempArray[whereTheIsbnIs + 2];
+        cageList.push(listObj);
       }
     }
   }
 
-  //this would be better implemented through an AVL tree
+  if (fileType === 0) { netsuiteList = listOfIsbn; }
+}
 
-  if (fileType === 1) { cageListIsbn = listOfIsbn; }
-  else { netsuiteList = listOfIsbn; }
-  //console.log(listOfIsbn);
+function renderCageList()
+{
+  var results = "<h4 style='text-align:center'>THE CAGE LIST\t<i class='fas fa-print printIcon' onclick='javascript:window.print()'></i></h4>";
+  results += "<table class='table table-striped table-hover'><thead><tr><th scope='col'>Author <i class='fas fa-angle-down'></i></th>" +
+    "<th scope='col'>ISBN <i class='fas fa-angle-down'></i></th><th scope='col'>Title <i class='fas fa-angle-down'></i></th>" + 
+    "<th scope='col'>Quantity <i class='fas fa-angle-down'></i></th><th>Semester <i class='fas fa-angle-down'></i></th></tr></thead><tbody>";
+  for (var i = 1; i < cageList.length; i++)
+  {
+    results += "<tr><td>" + cageList[i].author + "</td><td>" + cageList[i].isbn +
+          "</td><td>" + cageList[i].title + "</td><td>" + cageList[i].quantities + "</td>";
+          let semListed = false;
+          for (var j = 0; j < semStickers.length; j++)
+          {
+            if (semStickers[j].semester == cageList[i].semester)
+            {
+              results += "<td>" + semStickers[j].html + "</td></tr>";
+              semListed = true;
+              break;
+            }
+          }
+          if(!semListed){results += '<td><span class="fa-stack fa-1x"> <i class="fa fa-question-circle fa-stack-2x" style="color:#5c5c5c"></i></td></tr>';}
+  }
+  results+="</tbody></table>"
+  document.getElementById("table").innerHTML=results;
 }
 
 function compareLists()
 {
   var somethingFound = false;
   var results = "<h4 style='text-align:center'>Go get these books out of the cage!\t<i class='fas fa-print printIcon' onclick='javascript:window.print()'></i></h4>";
-  results += "<table class='table table-striped table-hover'><tr><th scope='col'>Author</th>" +
-    "<th scope='col'>ISBN</th><th scope='col'>Title</th><th scope='col'>Quantity</th></tr>"
+  results += "<table class='table table-striped table-hover'><thead><tr><th scope='col'>Author <i class='fas fa-angle-down'></i></th>" +
+    "<th scope='col'>ISBN <i class='fas fa-angle-down'></i></th><th scope='col'>Title <i class='fas fa-angle-down'></i></th>" + 
+    "<th scope='col'>Quantity <i class='fas fa-angle-down'></i></th><th>Semester <i class='fas fa-angle-down'></i></th></tr></thead><tbody>";
   for (var i = 0; i < netsuiteList.length; i++)
   {
-    for (var j = 1; j < cageListIsbn.length; j++)
+    for (var j = 1; j < cageList.length; j++)
     {
-      if (netsuiteList[i] === cageListIsbn[j])
+      if (netsuiteList[i] === cageList[j].isbn)
       {
         somethingFound = true;
-        //console.log("I found something!");        
-        //console.log(cageListIsbn[j]);
-        //results += "<br>" + listFull[j];
-        results += "<tr><td>" + cageListAuthors[j] + "</td><td>" + cageListIsbn[j] +
-          "</td><td>" + cageListTitles[j] + "</td><td>" + cageListQuantities[j] + "</td></tr>";
-
+        results += "<tr><td>" + cageList[j].author + "</td><td>" + cageList[j].isbn +
+          "</td><td>" + cageList[j].title + "</td><td>" + cageList[j].quantities + "</td>";
+          let semListed = false;
+          for (var k = 0; k < semStickers.length; k++)
+          {
+            if (semStickers[k].semester == cageList[j].semester)
+            {
+              results += "<td>" + semStickers[k].html + "</td></tr>";
+              semListed = true;
+              break;
+            }
+          }
+          if(!semListed){results += '<td><span class="fa-stack fa-1x"> <i class="fa fa-question-circle fa-stack-2x" style="color:#5c5c5c"></i></td></tr>';}
       }
     }
   }
-  results += "</table><br><i style='color:red'>remember to remove these books from the cage list!<i>";
+  results += "</tbody></table><br><i style='color:red'>remember to remove these books from the cage list!<i>";
   if (!somethingFound) { results = "<h3>No results found.</h3>"; }
   document.getElementById("results").innerHTML = results;
 }
@@ -213,6 +254,10 @@ function ISBNConversion(ISBN)
   else if (ISBN[0] == '9')
   {
     let tempInt = parseInt(ISBN);
+    if (ISBN[ISBN.length - 1] == '0') { tempInt = tempInt + 9; }
+    else { tempInt--; }
+    
+    /* old logic
     //check if its an inpendent study book (although this rule only sometimes applies?)
     if (ISBN[2] == '9')
     {
@@ -223,7 +268,8 @@ function ISBNConversion(ISBN)
     {
       if (ISBN[ISBN.length - 1] == '0') { tempInt = tempInt + 9; }
       else { tempInt--; }
-    }
+    }*/
+    
     tempInt = tempInt - 6880000000000;
     altISBN = tempInt.toString();
   }
@@ -231,6 +277,11 @@ function ISBNConversion(ISBN)
   else if (ISBN[0] == '2')
   {
     let tempInt = parseInt(ISBN);
+    
+    if (ISBN[ISBN.length - 1] == '9') { tempInt = tempInt - 9; }
+    else { tempInt++; }
+    
+    /* old logic
     //check if it's an independent study book
     if (ISBN[2] == '1')
     {
@@ -243,6 +294,8 @@ function ISBNConversion(ISBN)
       if (ISBN[ISBN.length - 1] == '9') { tempInt = tempInt - 9; }
       else { tempInt++; }
     }
+    */
+    
     tempInt = tempInt + 6880000000000;
     altISBN = tempInt.toString();
   }

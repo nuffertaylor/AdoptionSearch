@@ -1,0 +1,19 @@
+<html>
+
+<head>
+    <script src="adoptSearch.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/775768a85b.js"></script>
+    <link rel="icon" type="image/png" href="imgs/discover.png">
+</head>
+
+<body>
+    <h3>Upload Cage List to Display</h3>
+    <input type="file" id="cageListInput" onchange="handleFiles(this.files, 1)" accept=".csv" required>
+    <button type="button" class="btn btn-primary" id="submitButton" onclick="renderCageList()">Submit</button>
+    <div id="table">
+        
+    </div>
+</body>
+
+</html>
