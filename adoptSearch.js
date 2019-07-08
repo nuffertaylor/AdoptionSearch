@@ -63,12 +63,12 @@ function processData(csv)
     lines.push(tarr);
   }
   var listOfIsbn = [];
+  listFull = lines;
   var whereTheIsbnIs;
   if (fileType === 0) { whereTheIsbnIs = 3; }
   else
   {
     whereTheIsbnIs = 2;
-    listFull = lines;
   }
   for (var i = 0; i < lines.length; i++)
   {

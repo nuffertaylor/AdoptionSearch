@@ -26,7 +26,7 @@
     </nav>
     <h1>Faster Backorder Search</h1>
     <h4>Select the Netsuite File</h4><br>
-    <input type="file" id="csvFileInput" onchange="handleFiles(this.files, false)" accept=".csv" required>
+    <input type="file" id="csvFileInput" onchange="handleFiles(this.files, 0)" accept=".csv" required>
     <input type="text" id="ISBNsearch" placeholder="scan/paste ISBN here" onClick="this.setSelectionRange(0, this.value.length)"></input>
     <button type="button" class="btn btn-primary" id="submitButton" onclick="searchISBN()">Submit</button>
     <h5 id="alternateISBN"></h5>
