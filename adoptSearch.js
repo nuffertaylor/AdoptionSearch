@@ -257,19 +257,6 @@ function ISBNConversion(ISBN)
     if (ISBN[ISBN.length - 1] == '0') { tempInt = tempInt + 9; }
     else { tempInt--; }
     
-    /* old logic
-    //check if its an inpendent study book (although this rule only sometimes applies?)
-    if (ISBN[2] == '9')
-    {
-      if (ISBN[ISBN.length - 1] == '0' || ISBN[ISBN.length - 1] == '1') { tempInt = tempInt + 8; }
-      else { tempInt = tempInt - 2; }
-    }
-    else
-    {
-      if (ISBN[ISBN.length - 1] == '0') { tempInt = tempInt + 9; }
-      else { tempInt--; }
-    }*/
-    
     tempInt = tempInt - 6880000000000;
     altISBN = tempInt.toString();
   }
@@ -280,21 +267,6 @@ function ISBNConversion(ISBN)
     
     if (ISBN[ISBN.length - 1] == '9') { tempInt = tempInt - 9; }
     else { tempInt++; }
-    
-    /* old logic
-    //check if it's an independent study book
-    if (ISBN[2] == '1')
-    {
-      //the only thing is some 291s convert to 978 and some to 979 and I have no clue which is when
-      if (ISBN[ISBN.length - 1] == '9' || ISBN[ISBN.length - 1] == '8') { tempInt = tempInt - 8; }
-      else { tempInt = tempInt + 2; }
-    }
-    else
-    {
-      if (ISBN[ISBN.length - 1] == '9') { tempInt = tempInt - 9; }
-      else { tempInt++; }
-    }
-    */
     
     tempInt = tempInt + 6880000000000;
     altISBN = tempInt.toString();
