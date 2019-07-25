@@ -287,6 +287,8 @@ function updateISBN()
   if (document.getElementById("autoCopy").checked)
   {
     document.execCommand("copy");
+    document.getElementById("ISBNsearch").focus();
+    document.getElementById("ISBNsearch").select();
   }
 }
 
