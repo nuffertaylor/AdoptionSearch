@@ -73,7 +73,7 @@ function processData(csv)
   for (var i = 0; i < lines.length; i++)
   {
     var str = lines[i] + '';
-    var tempArray = str.split(',', 6);
+    var tempArray = str.split(',', 8);
     var tempStr = tempArray[whereTheIsbnIs] + '';
     /*usually the 4th element in the array is the ISBN, as str.split finds 3 commas before the ISBN.
     the thing is, the third comma is within the author's name, ie "Smith, J". (case 1) But some authors aren't saved this way, instead saved like "Hitt + Dyer" (case 2)
@@ -95,7 +95,9 @@ function processData(csv)
         // NOW I need to account for if there are any commas in the title
         listObj.title = tempArray[whereTheIsbnIs + 1];
         listObj.quantities = tempArray[whereTheIsbnIs + 2];
-        listObj.semester = tempArray[whereTheIsbnIs + 3];
+        listObj.new = tempArray[whereTheIsbnIs + 3];
+        listObj.used = tempArray[whereTheIsbnIs + 4];
+        listObj.semester = tempArray[whereTheIsbnIs + 5];
         cageList.push(listObj);
       }
     }
@@ -110,7 +112,9 @@ function processData(csv)
         listObj.author = tempArray[0];
         listObj.title = tempArray[whereTheIsbnIs];
         listObj.quantities = tempArray[whereTheIsbnIs + 1];
-        listObj.semester = tempArray[whereTheIsbnIs + 2];
+        listObj.new = tempArray[whereTheIsbnIs + 2];
+        listObj.used = tempArray[whereTheIsbnIs + 3];
+        listObj.semester = tempArray[whereTheIsbnIs + 4];
         cageList.push(listObj);
       }
     }
@@ -124,11 +128,13 @@ function renderCageList()
   var results = "<h4 style='text-align:center'>THE CAGE LIST\t<i class='fas fa-print printIcon' onclick='javascript:window.print()'></i></h4>";
   results += "<table class='table table-striped table-hover'><thead><tr><th scope='col'>Author <i class='fas fa-angle-down'></i></th>" +
     "<th scope='col'>ISBN <i class='fas fa-angle-down'></i></th><th scope='col'>Title <i class='fas fa-angle-down'></i></th>" + 
-    "<th scope='col'>Quantity <i class='fas fa-angle-down'></i></th><th>Semester <i class='fas fa-angle-down'></i></th></tr></thead><tbody>";
+    "<th scope='col'>Quantity <i class='fas fa-angle-down'></i></th><th scope='col'>New <i class='fas fa-angle-down'></i></th>" + 
+    "<th scope='col'>Used <i class='fas fa-angle-down'></i></th><th>Semester <i class='fas fa-angle-down'></i></th></tr></thead><tbody>";
   for (var i = 1; i < cageList.length; i++)
   {
     results += "<tr><td>" + cageList[i].author + "</td><td>" + cageList[i].isbn +
-          "</td><td>" + cageList[i].title + "</td><td>" + cageList[i].quantities + "</td>";
+          "</td><td>" + cageList[i].title + "</td><td>" + cageList[i].quantities + "</td><td>" +
+          cageList[i].new + "</td><td>" + cageList[i].used + "</td>";
           let semListed = false;
           for (var j = 0; j < semStickers.length; j++)
           {
@@ -151,7 +157,8 @@ function compareLists()
   var results = "<h4 style='text-align:center'>Go get these books out of the cage!\t<i class='fas fa-print printIcon' onclick='javascript:window.print()'></i></h4>";
   results += "<table class='table table-striped table-hover'><thead><tr><th scope='col'>Author <i class='fas fa-angle-down'></i></th>" +
     "<th scope='col'>ISBN <i class='fas fa-angle-down'></i></th><th scope='col'>Title <i class='fas fa-angle-down'></i></th>" + 
-    "<th scope='col'>Quantity <i class='fas fa-angle-down'></i></th><th>Semester <i class='fas fa-angle-down'></i></th></tr></thead><tbody>";
+    "<th scope='col'>Quantity <i class='fas fa-angle-down'></i></th><th scope='col'>New <i class='fas fa-angle-down'></i></th>" +
+    "<th scope='col'>Used <i class='fas fa-angle-down'></i></th><th>Semester <i class='fas fa-angle-down'></i></th></tr></thead><tbody>";
   for (var i = 0; i < netsuiteList.length; i++)
   {
     for (var j = 1; j < cageList.length; j++)
@@ -160,7 +167,8 @@ function compareLists()
       {
         somethingFound = true;
         results += "<tr><td>" + cageList[j].author + "</td><td>" + cageList[j].isbn +
-          "</td><td>" + cageList[j].title + "</td><td>" + cageList[j].quantities + "</td>";
+          "</td><td>" + cageList[j].title + "</td><td>" + cageList[j].quantities + "</td><td>" +
+          cageList[j].new + "</td><td>" + cageList[j].used + "</td>";
           let semListed = false;
           for (var k = 0; k < semStickers.length; k++)
           {
