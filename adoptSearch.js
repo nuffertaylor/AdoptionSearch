@@ -73,7 +73,7 @@ function processData(csv)
   for (var i = 0; i < lines.length; i++)
   {
     var str = lines[i] + '';
-    var tempArray = str.split(',', 8);
+    var tempArray = str.split(',');
     var tempStr = tempArray[whereTheIsbnIs] + '';
     /*usually the 4th element in the array is the ISBN, as str.split finds 3 commas before the ISBN.
     the thing is, the third comma is within the author's name, ie "Smith, J". (case 1) But some authors aren't saved this way, instead saved like "Hitt + Dyer" (case 2)
@@ -92,12 +92,31 @@ function processData(csv)
       {
         let str = tempArray[0] + "," + tempArray[1];
         listObj.author = str.slice(1, str.length - 1);
+        let kounter = whereTheIsbnIs + 1;
         // NOW I need to account for if there are any commas in the title
-        listObj.title = tempArray[whereTheIsbnIs + 1];
-        listObj.quantities = tempArray[whereTheIsbnIs + 2];
-        listObj.new = tempArray[whereTheIsbnIs + 3];
-        listObj.used = tempArray[whereTheIsbnIs + 4];
-        listObj.semester = tempArray[whereTheIsbnIs + 5];
+        let bookTitle = "";
+        if (tempArray[kounter][0] == '"')
+        {
+          console.log("found a quotation for the book by " + listObj.author);
+          bookTitle = tempArray[kounter];
+          kounter++;
+          while (tempArray[kounter][tempArray[kounter].length-1] != '"')
+          {
+            bookTitle += "," + tempArray[kounter];
+            kounter++;
+          }
+          if(tempArray[kounter][tempArray[kounter].length-1] == '"')
+          {
+            bookTitle += "," + tempArray[kounter];
+          }
+          console.log("The output title is: " + bookTitle + "\nthe last line should be: " + tempArray[kounter]);
+          listObj.title = bookTitle.slice(1, bookTitle.length - 1);
+        }
+        else {listObj.title = tempArray[kounter];}
+        listObj.quantities = tempArray[kounter + 1];
+        listObj.new = tempArray[kounter + 2];
+        listObj.used = tempArray[kounter + 3];
+        listObj.semester = tempArray[kounter + 4];
         cageList.push(listObj);
       }
     }
@@ -110,11 +129,30 @@ function processData(csv)
       if (fileType === 1)
       {
         listObj.author = tempArray[0];
-        listObj.title = tempArray[whereTheIsbnIs];
-        listObj.quantities = tempArray[whereTheIsbnIs + 1];
-        listObj.new = tempArray[whereTheIsbnIs + 2];
-        listObj.used = tempArray[whereTheIsbnIs + 3];
-        listObj.semester = tempArray[whereTheIsbnIs + 4];
+        let kounter = whereTheIsbnIs;
+        // NOW I need to account for if there are any commas in the title
+        let bookTitle = "";
+        if (tempArray[kounter][0] == '"')
+        {
+          console.log("found a quotation for the book by " + listObj.author);
+          while (tempArray[kounter][tempArray[kounter].length-1] != '"')
+          {
+            bookTitle += "," + tempArray[kounter];
+            kounter++;
+          }
+          if(tempArray[kounter][tempArray[kounter].length-1] == '"')
+          {
+            bookTitle += "," + tempArray[kounter];
+          }
+          console.log(bookTitle);
+        }
+        else {bookTitle = tempArray[kounter];}
+        
+        listObj.title = bookTitle;
+        listObj.quantities = tempArray[kounter + 1];
+        listObj.new = tempArray[kounter + 2];
+        listObj.used = tempArray[kounter + 3];
+        listObj.semester = tempArray[kounter + 4];
         cageList.push(listObj);
       }
     }
