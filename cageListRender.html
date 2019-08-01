@@ -10,26 +10,28 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="#">Home</a>
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="index.html">Adoption Search</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="backorderSearch.html">Backorder Search</a>
-                </li>
-                <li class = "nav-item">
-                    <a class="nav-link" href="ISBNConverter.html">ISBN Converter</a>
-                </li>
-                <li class = "nav-item active">
-                    <a class="nav-link" href="cageListRender.html">Display Cage List<span class="sr-only">(current)</span></a>
-                </li>
-            </ul>
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="index.html">Adoption Search</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="backorderSearch.html">Backorder Search</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="ISBNConverter.html">ISBN Converter</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="cageListRender.html">Display Cage List<span class="sr-only">(current)</span></a>
+            </li>
+        </ul>
     </nav>
-    <h3>Upload Cage List to Display</h3>
-    <input type="file" id="cageListInput" onchange="handleFiles(this.files, 1)" accept=".csv" required>
-    <button type="button" class="btn btn-primary" id="submitButton" onclick="renderCageList()">Submit</button>
+    <div style="padding-left:20px; padding-top:10px">
+        <h3>Upload Cage List to Display</h3>
+        <input type="file" id="cageListInput" onchange="handleFiles(this.files, 1)" accept=".csv" required>
+        <button type="button" class="btn btn-primary" id="submitButton" onclick="renderCageList()">Submit</button>
+    </div>
     <div id="table">
-        
+
     </div>
 </body>
 
